@@ -1,5 +1,7 @@
 import { Request } from 'express';
 import { Types } from 'mongoose';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
 
 export interface IUser {
   _id: string;
@@ -20,7 +22,7 @@ export interface ILead {
   createdAt: Date;
 }
 
-export interface AuthRequest extends Request {
+export interface AuthRequest extends Request<ParamsDictionary, any, any, ParsedQs> {
   user?: {
     id: string;
     role: 'admin' | 'sales';
