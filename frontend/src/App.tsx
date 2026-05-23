@@ -5,11 +5,14 @@ import ProtectedRoute from './components/Layout/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <ToastContainer position="top-right" autoClose={3000} />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

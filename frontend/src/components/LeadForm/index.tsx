@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createLeadApi, updateLeadApi } from '../../api/leads';
 import { ILead } from '../../types';
+import { toast } from 'react-toastify';
 
 interface LeadFormProps {
   onClose: () => void;
@@ -28,6 +29,7 @@ const LeadForm: React.FC<LeadFormProps> = ({ onClose, onSuccess, editLead }) => 
     e.preventDefault();
     if (!formData.name || !formData.email) {
       setError('Name and email are required');
+      toast.error('Name and email are required ❌');
       return;
     }
     setLoading(true);
@@ -35,13 +37,18 @@ const LeadForm: React.FC<LeadFormProps> = ({ onClose, onSuccess, editLead }) => 
     try {
       if (editLead) {
         await updateLeadApi(editLead._id, formData);
+        toast.success('Lead updated successfully! ✅');
       } else {
         await createLeadApi(formData);
+        toast.success('Lead created successfully! ✅');
       }
       onSuccess();
       onClose();
     } catch (err: unknown) {
-      if (err instanceof Error) setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+        toast.error(err.message + ' ❌');
+      }
     } finally {
       setLoading(false);
     }
